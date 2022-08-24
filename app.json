@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "m-notes",
-    "slug": "m-notes",
+    "name": "Notes",
+    "slug": "Notes",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/notes.png",
+    "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/notes.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,12 +22,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/notes.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "marcogarez.notes.app"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/notes.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c97b16da-7bac-4a14-b7b8-98552d356674"
+      }
     }
   }
 }

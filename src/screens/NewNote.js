@@ -4,48 +4,45 @@ import React, { useState } from "react";
 import { Button } from "@rneui/themed";
 import { Alert } from "react-native";
 
-import useNotes from "../hooks/useNotes";
+import { insertTask } from "../utils/db";
+import { useDatabaseContext } from "../context/DatabaseContext";
+import CustomInput from "../components/CustomInput";
+import CustomButton from "../components/CustomButton";
 
 export default function NewNote({ navigation }) {
-  const { notes, setNotes } = useNotes();
   const [note, setNote] = useState("");
+  const db = useDatabaseContext();
 
-  const handleChange = (e) => {
-    setNote(e);
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (note === "") {
       Alert.alert("No puedes guardar notas vacias");
       return;
     }
-    setNotes([...notes, note]);
-    setNote("");
-    navigation.navigate("Home");
+    try {
+      await insertTask(db, note);
+      setNote("");
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <TextInput
-        multiline
-        style={style.input}
+    <View style={styles.root}>
+      <CustomInput
         value={note}
-        onChangeText={handleChange}
+        setValue={setNote}
+        placeholder={"Escribe tu nota"}
+        secureTextEntry={false}
       />
-      <Button
-        buttonStyle={{ borderRadius: 10 }}
-        title="Guardar"
-        onPress={handleSubmit}
-      />
+      <CustomButton onPress={handleSubmit} text={"Guardar"} disabled={false} />
     </View>
   );
 }
 
-const style = StyleSheet.create({
-  input: {
-    width: 250,
-    margin: 12,
-    borderBottomWidth: 1,
-    padding: 10,
+const styles = StyleSheet.create({
+  root: {
+    alignItems: "center",
+    padding: 20,
   },
 });
