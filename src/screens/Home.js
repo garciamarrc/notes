@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import React, { useCallback } from "react";
 
 import useNotes from "../hooks/useNotes";
@@ -15,6 +15,10 @@ export default function Home() {
   const deleteTaskButton = async (id) => {
     await deleteTask(db, id);
     focusEffect();
+  }
+
+  const confirmDelete = (id, note) => {
+    Alert.alert("Are you sure to delete this note?", `"${note}"`, [{ text: "Yes", onPress: () => deleteTaskButton(id) }, {text: 'No'}])
   };
 
   const focusEffect = useCallback(() => {
@@ -22,7 +26,7 @@ export default function Home() {
       try {
         const tasksFromDatabase = await getTasks(db);
         setNotes(tasksFromDatabase);
-      } catch (error) {}
+      } catch (error) { }
     };
     fetchDb();
   }, [db]);
@@ -33,17 +37,12 @@ export default function Home() {
     <ScrollView>
       <View style={style.container}>
         {notes.length === 0 ? (
-          <Text style={style.subtitle}>Aun no hay notas</Text>
+          <Text style={style.subtitle}>No notes yet</Text>
         ) : (
           notes.map((e) => (
             <View style={style.note} key={e.id}>
               <Text style={style.noteText}>{e.title}</Text>
-              <Button
-                onPress={() => deleteTaskButton(e.id)}
-                title={"Eliminar"}
-                color="error"
-                size="sm"
-              />
+              <CustomButton onPress={() => confirmDelete(e.id, e.title)} text={"Delete"} disabled={false} />
             </View>
           ))
         )}
@@ -71,8 +70,11 @@ const style = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-around",
     alignItems: "center",
+    marginTop: 10
   },
   noteText: {
     marginVertical: 10,
+    fontWeight: "bold",
+    fontSize: 20
   },
 });

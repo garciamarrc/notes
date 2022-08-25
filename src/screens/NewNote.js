@@ -1,7 +1,6 @@
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React, { useState } from "react";
 
-import { Button } from "@rneui/themed";
 import { Alert } from "react-native";
 
 import { insertTask } from "../utils/db";
@@ -15,9 +14,15 @@ export default function NewNote({ navigation }) {
 
   const handleSubmit = async () => {
     if (note === "") {
-      Alert.alert("No puedes guardar notas vacias");
+      Alert.alert("You can't save an empty note");
       return;
     }
+
+    if (note.length > 512) {
+      Alert.alert("You can't save notes longer than 512 characters");
+      return;
+    }
+
     try {
       await insertTask(db, note);
       setNote("");
@@ -32,10 +37,10 @@ export default function NewNote({ navigation }) {
       <CustomInput
         value={note}
         setValue={setNote}
-        placeholder={"Escribe tu nota"}
+        placeholder={"Write your note"}
         secureTextEntry={false}
       />
-      <CustomButton onPress={handleSubmit} text={"Guardar"} disabled={false} />
+      <CustomButton onPress={handleSubmit} text={"Save"} disabled={false} />
     </View>
   );
 }

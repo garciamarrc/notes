@@ -38,12 +38,12 @@ export default function Navigation() {
         <Tab.Screen
           name="Home"
           component={Home}
-          options={{ title: "Mis notas" }}
+          options={{ title: "My notes" }}
         />
         <Tab.Screen
           name="NewNote"
           component={NewNote}
-          options={{ title: "Nueva nota" }}
+          options={{ title: "New note" }}
         />
       </Tab.Navigator>
     </NavigationContainer>
