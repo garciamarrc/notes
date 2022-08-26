@@ -3,13 +3,12 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 import React, { useCallback } from "react";
 
 import useNotes from "../hooks/useNotes";
-import { getTasks } from "../utils/db";
+import { getNotes } from "../utils/db";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Card } from "@rneui/base";
 import { useDatabaseContext } from "../context/DatabaseContext";
@@ -21,10 +20,8 @@ export default function Home() {
 
   const focusEffect = useCallback(() => {
     const fetchDb = async () => {
-      try {
-        const tasksFromDatabase = await getTasks(db);
-        setNotes(tasksFromDatabase);
-      } catch (error) {}
+      const notesFromDatabase = await getNotes(db);
+      setNotes(notesFromDatabase);
     };
     fetchDb();
   }, [db]);
@@ -33,16 +30,19 @@ export default function Home() {
 
   return (
     <ScrollView>
-      <View style={style.container}>
+      <View style={styles.container}>
         {notes.length === 0 ? (
-          <Text style={style.subtitle}>No notes yet</Text>
+          <Text style={styles.subtitle}>No notes yet</Text>
         ) : (
           notes.map((e) => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("EditNote", { id: e.id })}
+              onPress={() =>
+                navigation.navigate("EditNote", { id: e.id, title: e.title })
+              }
+              key={e.id}
             >
-              <Card key={e.id}>
-                <Text style={style.title}>{e.title}</Text>
+              <Card>
+                <Text style={styles.title}>{e.title}</Text>
                 <Card.Divider />
                 <Text>{e.description}</Text>
               </Card>
@@ -54,7 +54,7 @@ export default function Home() {
   );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   title: {
     fontSize: 15,
     fontWeight: "bold",

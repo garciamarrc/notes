@@ -16,12 +16,12 @@ export const initDatabase = async () => {
   await createTables(db);
 };
 
-export const insertTask = async (db, title, description) => {
+export const insertNote = async (db, title, description) => {
   const insertQuery = `INSERT INTO notes (title, description) VALUES ('${title}', '${description}')`;
   db.transaction((tx) => tx.executeSql(insertQuery));
 };
 
-export const getTasks = async (db) => {
+export const getNotes = async (db) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -35,7 +35,7 @@ export const getTasks = async (db) => {
   });
 };
 
-export const getTask = async (db, id) => {
+export const getNote = async (db, id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -49,7 +49,7 @@ export const getTask = async (db, id) => {
   });
 };
 
-export const updateTask = async (db, { title, description }, id) => {
+export const updateNote = async (db, { title, description }, id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -61,7 +61,7 @@ export const updateTask = async (db, { title, description }, id) => {
   });
 };
 
-export const deleteTask = async (db, id) => {
+export const deleteNote = async (db, id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(`DELETE FROM notes WHERE id = ${id}`, null, () =>

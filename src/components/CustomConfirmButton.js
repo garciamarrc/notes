@@ -4,8 +4,8 @@ import React from "react";
 export default function CustomConfirmButton({ onPress, text, disabled }) {
   if (disabled) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>Cargando...</Text>
+      <View style={styles.containerDisabled}>
+        <Text style={styles.text}>{text}</Text>
       </View>
     );
   }
@@ -28,6 +28,19 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
     borderRadius: 5,
+  },
+  containerDisabled: {
+    backgroundColor: "#3871f3",
+
+    width: "100%",
+
+    padding: 10,
+    marginVertical: 5,
+
+    alignItems: "center",
+    borderRadius: 5,
+
+    opacity: 0.7,
   },
   text: {
     fontWeight: "bold",

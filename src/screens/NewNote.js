@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import { Alert } from "react-native";
 
-import { insertTask } from "../utils/db";
+import { insertNote } from "../utils/db";
 import { useDatabaseContext } from "../context/DatabaseContext";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomConfirmButton";
@@ -25,7 +25,7 @@ export default function NewNote({ navigation }) {
     }
 
     try {
-      await insertTask(
+      await insertNote(
         db,
         title.replace("'", "''"),
         description.replace("'", "''")
