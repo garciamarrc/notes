@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import React, { useState } from "react";
 
 import { Alert } from "react-native";
@@ -6,48 +6,60 @@ import { Alert } from "react-native";
 import { insertTask } from "../utils/db";
 import { useDatabaseContext } from "../context/DatabaseContext";
 import CustomInput from "../components/CustomInput";
-import CustomButton from "../components/CustomButton";
+import CustomButton from "../components/CustomConfirmButton";
 
 export default function NewNote({ navigation }) {
-  const [note, setNote] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const db = useDatabaseContext();
 
   const handleSubmit = async () => {
-    if (note === "") {
-      Alert.alert("You can't save an empty note");
+    if (title === "") {
+      Alert.alert("You can't save an empty title");
       return;
     }
 
-    if (note.length > 512) {
-      Alert.alert("You can't save notes longer than 512 characters");
+    if (description === "") {
+      Alert.alert("You can't save an empty description");
       return;
     }
 
     try {
-      await insertTask(db, note);
-      setNote("");
-      navigation.navigate("Home");
+      await insertTask(
+        db,
+        title.replace("'", "''"),
+        description.replace("'", "''")
+      );
+      setTitle("");
+      setDescription("");
+      navigation.navigate("MyNotes");
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <View style={styles.root}>
+    <ScrollView style={styles.root}>
       <CustomInput
-        value={note}
-        setValue={setNote}
-        placeholder={"Write your note"}
+        value={title}
+        setValue={setTitle}
+        placeholder={"Title"}
         secureTextEntry={false}
       />
+      <CustomInput
+        value={description}
+        setValue={setDescription}
+        placeholder={"Description"}
+        secureTextEntry={false}
+        multiline={true}
+      />
       <CustomButton onPress={handleSubmit} text={"Save"} disabled={false} />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   root: {
-    alignItems: "center",
-    padding: 20,
+    marginHorizontal: 20,
   },
 });

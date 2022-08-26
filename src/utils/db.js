@@ -1,13 +1,13 @@
 import * as SQLite from "expo-sqlite";
 
-const DATABASE_NAME = "tasks.db";
+const DATABASE_NAME = "notes.db";
 
 export const getDbConnection = async () => {
   return SQLite.openDatabase(DATABASE_NAME);
 };
 
 export const createTables = async (db) => {
-  const query = `CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(521))`;
+  const query = `CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT)`;
   db.transaction((tx) => tx.executeSql(query));
 };
 
@@ -16,8 +16,8 @@ export const initDatabase = async () => {
   await createTables(db);
 };
 
-export const insertTask = async (db, title) => {
-  const insertQuery = `INSERT INTO tasks (title) VALUES ('${title}')`;
+export const insertTask = async (db, title, description) => {
+  const insertQuery = `INSERT INTO notes (title, description) VALUES ('${title}', '${description}')`;
   db.transaction((tx) => tx.executeSql(insertQuery));
 };
 
@@ -25,7 +25,7 @@ export const getTasks = async (db) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT id, title FROM tasks",
+        "SELECT id, title, description FROM notes",
         null,
         (txObj, { rows: { _array } }) => {
           resolve(_array);
@@ -35,10 +35,36 @@ export const getTasks = async (db) => {
   });
 };
 
+export const getTask = async (db, id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT id, title, description FROM notes WHERE id = ?",
+        [id],
+        (txObj, { rows: { _array } }) => {
+          resolve(_array[0]);
+        }
+      );
+    });
+  });
+};
+
+export const updateTask = async (db, { title, description }, id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `UPDATE notes SET title = ?, description = ? WHERE id = ?`,
+        [title, description, id],
+        () => resolve(true)
+      );
+    });
+  });
+};
+
 export const deleteTask = async (db, id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      tx.executeSql(`DELETE FROM tasks WHERE id = ${id}`, null, () =>
+      tx.executeSql(`DELETE FROM notes WHERE id = ${id}`, null, () =>
         resolve(true)
       );
     });

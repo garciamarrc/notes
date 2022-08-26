@@ -6,6 +6,7 @@ export default function CustomInput({
   setValue,
   placeholder,
   secureTextEntry,
+  multiline = false,
 }) {
   return (
     <View style={styles.container}>
@@ -15,6 +16,7 @@ export default function CustomInput({
         placeholder={placeholder}
         style={styles.input}
         secureTextEntry={secureTextEntry}
+        multiline={multiline}
       />
     </View>
   );
