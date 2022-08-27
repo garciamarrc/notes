@@ -18,6 +18,13 @@ export default function Home() {
   const db = useDatabaseContext();
   const navigation = useNavigation();
 
+  const showOnly25Chars = (text) => {
+    if (text.length > 25) {
+      return `${text.substring(0, 25)}...`;
+    }
+    return text
+  }
+
   const focusEffect = useCallback(() => {
     const fetchDb = async () => {
       const notesFromDatabase = await getNotes(db);
@@ -29,25 +36,28 @@ export default function Home() {
   useFocusEffect(focusEffect);
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.root}>
       <View style={styles.container}>
         {notes.length === 0 ? (
           <Text style={styles.subtitle}>No notes yet</Text>
         ) : (
-          notes.map((e) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("EditNote", { id: e.id, title: e.title })
-              }
-              key={e.id}
-            >
-              <Card>
-                <Text style={styles.title}>{e.title}</Text>
-                <Card.Divider />
-                <Text>{e.description}</Text>
-              </Card>
-            </TouchableOpacity>
-          ))
+          notes.map((e) => {
+            const shortDescription = showOnly25Chars(e.description);
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("EditNote", { id: e.id, title: e.title })
+                }
+                key={e.id}
+              >
+                <Card containerStyle={{ backgroundColor: "#303030" }}>
+                  <Text style={styles.title}>{e.title}</Text>
+                  <Card.Divider />
+                  <Text style={styles.description}>{shortDescription}</Text>
+                </Card>
+              </TouchableOpacity>
+            )
+          })
         )}
       </View>
     </ScrollView>
@@ -55,16 +65,24 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+  root: {
+    backgroundColor: "#212121",
+  },
   title: {
     fontSize: 15,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 2,
+    color: "white"
+  },
+  description: {
+    color: "white"
   },
   subtitle: {
     marginTop: 250,
     fontSize: 15,
     textAlign: "center",
+    color: "white"
   },
   container: {
     flexDirection: "column",

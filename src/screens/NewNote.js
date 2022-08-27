@@ -60,6 +60,7 @@ export default function NewNote({ navigation }) {
 
 const styles = StyleSheet.create({
   root: {
-    marginHorizontal: 20,
+    paddingHorizontal: 20,
+    backgroundColor: "#212121"
   },
 });

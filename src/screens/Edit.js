@@ -48,8 +48,8 @@ export default function Edit({ route }) {
   }, []);
 
   return (
-    <ScrollView>
-      <Card>
+    <ScrollView style={styles.root}>
+      <Card containerStyle={{backgroundColor: "#303030"}}>
         <TextInput
           style={styles.title}
           value={note.title}
@@ -57,6 +57,7 @@ export default function Edit({ route }) {
         />
         <Card.Divider />
         <TextInput
+          style={styles.description}
           multiline={true}
           value={note.description}
           onChangeText={setNoteDescription}
@@ -83,11 +84,18 @@ export default function Edit({ route }) {
 }
 
 const styles = StyleSheet.create({
+  root: {
+    backgroundColor: "#212121"
+  },
   title: {
     fontSize: 15,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 2,
+    color: "white"
+  },
+  description: {
+    color: "white",
   },
   buttonsContainer: {
     flexDirection: "row",
