@@ -49,7 +49,7 @@ export default function Edit({ route }) {
 
   return (
     <ScrollView style={styles.root}>
-      <Card containerStyle={{backgroundColor: "#303030"}}>
+      <Card containerStyle={styles.cardBackground}>
         <TextInput
           style={styles.title}
           value={note.title}
@@ -105,4 +105,5 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "40%",
   },
+  cardBackground: { backgroundColor: "#505050" },
 });

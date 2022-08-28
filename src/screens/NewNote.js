@@ -1,7 +1,5 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-
-import { Alert } from "react-native";
 
 import { insertNote } from "../utils/db";
 import { useDatabaseContext } from "../context/DatabaseContext";
@@ -14,46 +12,43 @@ export default function NewNote({ navigation }) {
   const db = useDatabaseContext();
 
   const handleSubmit = async () => {
+
+    let toInsertTitle;
+
     if (title === "") {
-      Alert.alert("You can't save an empty title");
-      return;
+      toInsertTitle = "Untitled";
+    } else {
+      toInsertTitle = title;
     }
 
-    if (description === "") {
-      Alert.alert("You can't save an empty description");
-      return;
-    }
-
-    try {
-      await insertNote(
-        db,
-        title.replace("'", "''"),
-        description.replace("'", "''")
-      );
-      setTitle("");
-      setDescription("");
-      navigation.navigate("MyNotes");
-    } catch (error) {
-      console.log(error);
-    }
+    await insertNote(
+      db,
+      toInsertTitle.replace("'", "''"),
+      description.replace("'", "''")
+    );
+    setTitle("");
+    setDescription("");
+    navigation.navigate("MyNotes");
   };
 
   return (
     <ScrollView style={styles.root}>
-      <CustomInput
-        value={title}
-        setValue={setTitle}
-        placeholder={"Title"}
-        secureTextEntry={false}
-      />
-      <CustomInput
-        value={description}
-        setValue={setDescription}
-        placeholder={"Description"}
-        secureTextEntry={false}
-        multiline={true}
-      />
-      <CustomButton onPress={handleSubmit} text={"Save"} disabled={false} />
+      <View style={{ marginTop: 50 }}>
+        <CustomInput
+          value={title}
+          setValue={setTitle}
+          placeholder={"Title"}
+          secureTextEntry={false}
+        />
+        <CustomInput
+          value={description}
+          setValue={setDescription}
+          placeholder={"Description"}
+          secureTextEntry={false}
+          multiline={true}
+        />
+        <CustomButton onPress={handleSubmit} text={"Save"} disabled={false} />
+      </View>
     </ScrollView>
   );
 }

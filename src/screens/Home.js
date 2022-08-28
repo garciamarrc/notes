@@ -50,7 +50,7 @@ export default function Home() {
                 }
                 key={e.id}
               >
-                <Card containerStyle={{ backgroundColor: "#303030" }}>
+                <Card containerStyle={styles.cardBackground}>
                   <Text style={styles.title}>{e.title}</Text>
                   <Card.Divider />
                   <Text style={styles.description}>{shortDescription}</Text>
@@ -93,4 +93,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
   },
+  cardBackground: { backgroundColor: "#505050" },
 });
