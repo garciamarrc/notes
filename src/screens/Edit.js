@@ -49,7 +49,7 @@ export default function Edit({ route }) {
 
   return (
     <ScrollView style={styles.root}>
-      <Card containerStyle={styles.cardBackground}>
+      <Card>
         <TextInput
           style={styles.title}
           value={note.title}
@@ -85,17 +85,17 @@ export default function Edit({ route }) {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: "#212121"
+    backgroundColor: "#FFFFFF",
   },
   title: {
     fontSize: 15,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 2,
-    color: "white"
+    color: "black",
   },
   description: {
-    color: "white",
+    color: "black",
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -105,5 +105,4 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "40%",
   },
-  cardBackground: { backgroundColor: "#505050" },
 });

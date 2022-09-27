@@ -22,8 +22,8 @@ export default function Home() {
     if (text.length > 25) {
       return `${text.substring(0, 25)}...`;
     }
-    return text
-  }
+    return text;
+  };
 
   const focusEffect = useCallback(() => {
     const fetchDb = async () => {
@@ -50,13 +50,13 @@ export default function Home() {
                 }
                 key={e.id}
               >
-                <Card containerStyle={styles.cardBackground}>
+                <Card>
                   <Text style={styles.title}>{e.title}</Text>
                   <Card.Divider />
                   <Text style={styles.description}>{shortDescription}</Text>
                 </Card>
               </TouchableOpacity>
-            )
+            );
           })
         )}
       </View>
@@ -66,23 +66,23 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: "#212121",
+    backgroundColor: "#FFFFFF",
   },
   title: {
     fontSize: 15,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 2,
-    color: "white"
+    color: "black",
   },
   description: {
-    color: "white"
+    color: "black",
   },
   subtitle: {
     marginTop: 250,
     fontSize: 15,
     textAlign: "center",
-    color: "white"
+    color: "black",
   },
   container: {
     flexDirection: "column",
@@ -93,5 +93,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
   },
-  cardBackground: { backgroundColor: "#505050" },
 });

@@ -12,7 +12,6 @@ export default function NewNote({ navigation }) {
   const db = useDatabaseContext();
 
   const handleSubmit = async () => {
-
     let toInsertTitle;
 
     if (title === "") {
@@ -56,6 +55,6 @@ export default function NewNote({ navigation }) {
 const styles = StyleSheet.create({
   root: {
     paddingHorizontal: 20,
-    backgroundColor: "#212121"
+    backgroundColor: "#FFFFFF",
   },
 });

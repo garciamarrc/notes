@@ -35,9 +35,6 @@ const Home = () => {
       initialRouteName="MyNotes"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => screenOptions(route, color),
-        headerStyle: { backgroundColor: "#212121" },
-        headerTintColor: "white",
-        tabBarStyle: { backgroundColor: "#212121" }
       })}
     >
       <Tab.Screen
@@ -57,10 +54,7 @@ const Home = () => {
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        headerStyle: { backgroundColor: "#212121" },
-        headerTintColor: "white",
-      }}>
+      <Stack.Navigator>
         <Stack.Screen
           name="Home"
           component={Home}
